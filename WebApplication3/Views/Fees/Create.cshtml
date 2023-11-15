@@ -1,0 +1,118 @@
+﻿@model WebApplication3.Models.FeesModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>FeesModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             
+
+            <div class="form-group">
+                <label asp-for="fees_date" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="fees_date" class="form-control" />
+                <span asp-validation-for="fees_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="student_name" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="student_name"  class="form-control" />
+                <span asp-validation-for="student_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="father_name" class="control-label"></label>
+                <input asp-for="father_name" class="form-control" />
+                <span asp-validation-for="father_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dob" class="control-label"></label>
+                <input asp-for="dob"  class="form-control" />
+                <span asp-validation-for="dob" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="mobile" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="mobile" class="form-control" />
+                <span asp-validation-for="mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="student_id" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="student_id" class="form-control" />
+                <span asp-validation-for="student_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="course_name" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="course_name" class="form-control" />
+                <span asp-validation-for="course_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="installment" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="installment" class="form-control" />
+                <span asp-validation-for="installment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="photo" class="control-label"></label>
+                <input asp-for="photo" type="file" name="postedFiles" class="form-control" />
+                <span asp-validation-for="photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="fees" class="control-label"></label><font color="red">(*)</font>
+                <input asp-for="fees" class="form-control" />
+                <span asp-validation-for="fees" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () { 
+        $('#student_name').blur(function () {
+            $('#student_id').val(get_first_char($('#student_name').val()) + $('#mobile').val())
+        })
+
+        $('#mobile').blur(function () {
+            $('#student_id').val(get_first_char($('#student_name').val()) + $('#mobile').val())
+        })
+    })
+</script>
+
+
+<script>
+    function get_first_char(s) {
+        let str = "", temp = "";
+        for (let i = s.length - 1; i > 0; i--) {
+            if (s[i].match(/[a-zA-Z]/) && s[i - 1] === ' ') {
+                temp += s[i];
+            }
+        }
+        str += s[0];
+        for (let i = temp.length - 1; i >= 0; i--) {
+            str += temp[i];
+        }
+        return str;
+    }
+</script>
+
+
