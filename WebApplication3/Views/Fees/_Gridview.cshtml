@@ -1,0 +1,82 @@
+﻿@model IEnumerable<WebApplication3.Models.FeesModel>
+
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                Date
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.student_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.student_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.course_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fees)
+            </th>
+            <th>
+                Fee To Be Collected
+            </th>
+            <th>
+                Collected Installment
+            </th>
+            <th>
+                Photo
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.fees_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.student_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.student_name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.mobile)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.course_name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.fees)
+                </td>
+                <th>
+                    -
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.installment)
+                </td>
+                <td>
+                    <img src="~/uploads/@Html.DisplayFor(modelItem => item.photo)" title="@item" width="50" height="50" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    @* <a asp-action="Details" asp-route-id="@item.id">Details</a> | *@
+                    @Html.ActionLink("Delete", "Delete", new { id=item.id }, new{onclick="return confirm('Are You Sure You want to delete a record?');"})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
