@@ -10,9 +10,9 @@
 
 <p> <a asp-action="Create">Create New</a> </p>
 
-<div class="row"> <div class="col-md-2"> Search: <input type="text" placeholder="Search Records" id="txtSearch" class="form-control" /> </div> </div>
+@* <div class="row"> <div class="col-md-2"> Search: <input type="text" placeholder="Search Records" id="txtSearch" class="form-control" /> </div> </div> *@
    
-<table class="table">
+<table class="table" id="pagination">
     <thead>
         <tr>
 
@@ -91,14 +91,6 @@
         }
     </tbody>
 </table>
-
-
-
-
-
-
-
-
 
 
                     @* filter scripts *@
