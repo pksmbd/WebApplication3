@@ -26,19 +26,6 @@ namespace WebApplication3.Controllers
 
         public IActionResult Index()
         {
-            List<FeesModel> FeesModelLstObj = GetFees();
-            return View(FeesModelLstObj);
-        }
-
-        public PartialViewResult FilterFees(string searchText)
-        {
-            List<FeesModel> FeesModelLstObj = GetFees();
-            var result = FeesModelLstObj.Where(a => a.student_name.ToLower().Contains(searchText)  || a.student_id.ToString().Contains(searchText)).ToList();
-            return PartialView("_Gridview", result);
-        }
-
-        public List<FeesModel> GetFees()
-        {
             List<FeesModel> FeesModelLstObj = new List<FeesModel>();
             DataSet ds1 = mc.fetchdata("select * from tblfees");
             int i = 0;
@@ -62,8 +49,8 @@ namespace WebApplication3.Controllers
                 });
                 i++;
             }
-            return FeesModelLstObj;
-        }
+            return View(FeesModelLstObj);
+        } 
 
         public IActionResult Create()
         {
