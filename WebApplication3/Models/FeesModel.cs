@@ -1,13 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication3.Models
 {
     public class FeesModel
     {
-
         public int id { get; set; }
-
 
         [DataType(DataType.Date)]
         public DateTime reg_date { get; set; }
@@ -45,13 +44,13 @@ namespace WebApplication3.Models
         public string student_id { get; set; }
 
 
-         
 
 
 
         [Required(ErrorMessage = "Please Enter Course Name")]
         [Display(Name = "Course Name")]
         public string course_name { get; set; }
+        public IEnumerable<SelectListItem> coursename { get; set; }
 
         [Required(ErrorMessage = "Please Enter Installment")]
         [Display(Name = "Installment")]

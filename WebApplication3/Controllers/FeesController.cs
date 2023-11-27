@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication3.Data;
 using WebApplication3.Models;
 using WebApplication3.Service;
+using PagedList;
+using PagedList.Mvc;
+
 
 namespace WebApplication3.Controllers
 {

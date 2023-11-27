@@ -17,7 +17,7 @@
 
             <div class="form-group">
                 <label asp-for="fees_date" class="control-label"></label><font color="red">(*)</font>
-                <input asp-for="fees_date" class="form-control" />
+                <input id="today" disabled  class="form-control" />
                 <span asp-validation-for="fees_date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,7 +37,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="dob" class="control-label"></label>
-                <input asp-for="dob"  class="form-control" />
+                <input onchange="calculateAge()" class="form-control" />
+                <span style="width:150px;height:20px;display:block;border: 1px solid black;" id="result"></span>
                 <span asp-validation-for="dob" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -52,7 +53,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="course_name" class="control-label"></label><font color="red">(*)</font>
-                <input asp-for="course_name" class="form-control" />
+                <input list="dt" class="form-control" />
+                <datalist id="dt">
+                    <option value="ADCA"></option>
+                    <option value="DCA"></option>
+                    <option value="DTP"></option>
+                    <option value="O LEVEL"></option>
+                    <option value="CCC"></option>
+                    <option value="WEB DESIGNING"></option>
+                </datalist>
                 <span asp-validation-for="course_name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -81,6 +90,46 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+<script>
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${day}/${month}/${year}`;
+    document.getElementById("today").value = currentDate;
+    // document.getElementsByClassName("td").innerHTML = currentDate;
+
+
+    function calculateAge() {
+        var dobInput = document.getElementById('dob').value;
+        var dob = new Date(dobInput);
+
+        // console.log(dobInput)
+
+        if (isNaN(dob.getTime())) {
+            alert("Invalid date of birth. Please enter a valid date in the format YYYY-MM-DD.");
+            return;
+        }
+
+        var today = new Date();
+        var age = today.getFullYear() - dob.getFullYear();
+        // var age = today.getFullYear();
+        // var age = dob.getFullYear();
+        // console.log(age);
+        // Adjust age if birthday hasn't occurred yet this year
+        if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        // document.getElementById('result').innerHTML = "Your age is: " + age + " years.";
+        document.getElementById('result').innerHTML = age;
+        // console.log('age');
+    }
+</script>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
@@ -98,7 +147,6 @@
     })
 </script>
 
-
 <script>
     function get_first_char(s) {
         let str = "", temp = "";
@@ -114,5 +162,33 @@
         return str;
     }
 </script>
+
+@* 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+            $('#Country').change(function () {
+                var selectedCountry = $("#Country").val();
+                var regionsSelect = $('#Region');
+                regionsSelect.empty();
+                if (selectedCountry != null && selectedCountry != '') {
+                    $.getJSON('@Url.Action("GetRegions")', { iso3: selectedCountry }, function (regions) {
+                        if (regions != null && !jQuery.isEmptyObject(regions))
+                        {
+                            regionsSelect.append($('<option/>', {
+                                value: null,
+                                text: ""
+                            }));
+                            $.each(regions, function (index, region) {
+                                regionsSelect.append($('<option/>', {
+                                    value: region.Value,
+                                    text: region.Text
+                                }));
+                            });
+                        };
+                    });
+                }
+            });
+    </script> *@
 
 
