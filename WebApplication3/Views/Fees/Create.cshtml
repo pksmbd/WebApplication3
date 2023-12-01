@@ -15,7 +15,7 @@
 
         <div class="form-group">
             <label class="control-label"></label><font color="red"></font>
-            <input type="search" id="stuid" placeholder="search by stu id" class="form-control" />
+            <input type="text" id="stuid" placeholder="search by stu id" class="form-control" />
         </div>
     </div>
 </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="student_name" class="control-label"></label><font color="red">(*)</font>
-                <input asp-for="student_name" id="name"  class="form-control" />
+                <input asp-for="student_name"  class="form-control" />
                 <span asp-validation-for="student_name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
     <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="dob" class="control-label"> </label>&nbsp;<span id="result"></span>
-                <input asp-for="dob" onchange="calculateAge()" id="dob" class="form-control" />
+                <input asp-for="dob"  onchange="calculateAge()" id="dob" class="form-control" />
                 
                 <span asp-validation-for="dob" class="text-danger"></span>
             </div>
@@ -63,13 +63,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="course_name" class="control-label"></label><font color="red">(*)</font>
-                <select id="dt" class="form-control">
+                <select asp-for="course_name" class="form-control">
                         <option value="ADCA">ADCA </option>
                     <option value="DCA">DCA</option>
                     <option value="DTP">DTP</option>
                     <option value="O LEVEL">O LEVEL</option>
                     <option value="CCC">CCC</option>
                     <option value="WEB DESIGNING">WEB DESIGNING</option>
+                    <option value="SOFTWARE DEVELOPMENT">SOFTWARE DEVELOPMENT</option>
                 </select>
                 <span asp-validation-for="course_name" class="text-danger"></span>
             </div>
@@ -87,7 +88,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="fees" class="control-label"></label><font color="red">(*)</font>
-                <input asp-for="fees" class="form-control" />
+                <input asp-for="fees" readonly class="form-control" />
                 <span asp-validation-for="fees" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -102,17 +103,12 @@
 </div>
 
 <script>
+    // AGE CALCULATION AS DOB
     function calculateAge() {
         // Get the date of birth value from the input
         var dobInput = document.getElementById("dob");
         var dobValue = dobInput.value;
-
-        // Check if a date is selected
-        // if (!dobValue) {
-        //     alert("Please select a date of birth.");
-        //     return;
-        // }
-
+ 
         // Calculate age
         var dob = new Date(dobValue);
         var today = new Date();
@@ -135,24 +131,17 @@
         var resultElement = document.getElementById("result");
         resultElement.textContent = "Age: " + years + " years, " + months + " months";
     }
+    // AGE CALCULATION AS DOB
+
 </script>
 
 <script>
 
-    const dateInput = document.getElementById('date');
-    dateInput.value = formatDate();
-
-    function padTo2Digits(num) {
-        return num.toString().padStart(2, '0');
-    }
-
-    function formatDate(date = new Date()) {
-        return [
-            date.getFullYear(),
-            padTo2Digits(date.getMonth() + 1),
-            padTo2Digits(date.getDate()),
-        ].join('-');
-    }
+    // FETCHING CURRENT DATE AND DOB DATE
+    document.getElementById('date').value = formatDate();
+    document.getElementById('dob').value = formatDate();
+    function padTo2Digits(num) { return num.toString().padStart(2, '0'); }
+    function formatDate(date = new Date()) { return [ date.getFullYear(), padTo2Digits(date.getMonth() + 1), padTo2Digits(date.getDate()), ].join('-'); }
 </script>
 
 
@@ -162,15 +151,38 @@
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
+
+
+    // GENERATING STUDENT ID AUTOGENERATE
     $(function () { 
-        $('#student_name').blur(function () {
+        $('#student_name').keyup(function () {
             $('#student_id').val(get_first_char($('#student_name').val()) + $('#mobile').val())
         })
-
-        $('#mobile').blur(function () {
+        $('#mobile').keyup(function () {
             $('#student_id').val(get_first_char($('#student_name').val()) + $('#mobile').val())
         })
     })
+    // GENERATING STUDENT ID AUTOGENERATE
+
+
+
+    // COURSE FEE SETTING
+    $(function () {
+
+        $('#course_name').change(function () {
+            if ($('#course_name').val() == "ADCA") { $('#fees').val("500") }
+            if ($('#course_name').val() == "DTP") { $('#fees').val("500") }
+            if ($('#course_name').val() == "DCA") { $('#fees').val("500") }
+            if ($('#course_name').val() == "CCC") { $('#fees').val("800") }
+            if ($('#course_name').val() == "O LEVEL") { $('#fees').val("1200") }
+            if ($('#course_name').val() == "WEB DESIGNING") { $('#fees').val("3000") }
+            if ($('#course_name').val() == "SOFTWARE DEVELOPMENT") { $('#fees').val("3000") }
+        })
+    })
+    // COURSE FEE SETTING
+
+
+
 </script>
 
 <script>
@@ -187,73 +199,30 @@
         }
         return str;
     }
+</script> 
+
+<script> 
+
+    // $("#stuid").change(function (event) {
+    //     debugger
+    //     var cusKey = $("#stuid").val();
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: "/FeesController/getdetails/",
+    //         contentType: "application/json; charset=utf-8",
+    //         dataType: "json",
+    //         data: JSON.stringify({ "stu_id": cusKey }),
+    //         success: function (data) {
+    //             // alert("asd2");
+    //             // $("#student_name").val(data.student_name);
+    //             alert(data.student_name);
+    //         },
+    //         error: function (xhr, status, error) {
+    //             var err = JSON.parse(xhr.responseText);
+    //             alert(err.message);
+    //         }
+    //     });
+    // });
 </script>
 
-@* 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-            $('#Country').change(function () {
-                var selectedCountry = $("#Country").val();
-                var regionsSelect = $('#Region');
-                regionsSelect.empty();
-                if (selectedCountry != null && selectedCountry != '') {
-                    $.getJSON('@Url.Action("GetRegions")', { iso3: selectedCountry }, function (regions) {
-                        if (regions != null && !jQuery.isEmptyObject(regions))
-                        {
-                            regionsSelect.append($('<option/>', {
-                                value: null,
-                                text: ""
-                            }));
-                            $.each(regions, function (index, region) {
-                                regionsSelect.append($('<option/>', {
-                                    value: region.Value,
-                                    text: region.Text
-                                }));
-                            });
-                        };
-                    });
-                }
-            });
-    </script> *@
-
-<script>
-// $(document).ready(function(){
-//    $("#stuid").TextChanged(function(){
-//        $.ajax({
-//              Type:"GET/POST",
-//              ContentType:"application/json;charset=utf-8",
-//              url:'@Url.Action("getdetails","FeesController")',
-//              data:{allData : Json.Stringify(Model)},
-//              dataType:"json",
-//              success: function(data){
-//                     data.student_name
-//              },
-//              error: function(){
-//                  alert("Error");
-//              }             
- 
-//        });
- 
-//    });
-// });
-
-    $("#stuid").change(function (event) {
-        var cusKey = $("#stuid").val();
-        alert("student id:" + cusKey);
-        $.ajax({
-            type: 'GET',
-            url: "/FeesController/getdetails/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({ "stu_id": cusKey }),
-            success: function (data) {
-                alert("available");
-                $("#name").val(data.student_name);
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    });
-</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

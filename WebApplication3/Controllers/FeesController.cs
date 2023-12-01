@@ -11,7 +11,7 @@ using WebApplication3.Models;
 using WebApplication3.Service;
 using PagedList;
 using PagedList.Mvc;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 
 
 namespace WebApplication3.Controllers
@@ -56,13 +56,13 @@ namespace WebApplication3.Controllers
             }
             return View(FeesModelLstObj);
         }
-
-        //[HttpGet]
-        //public IActionResult getdetails(string stu_id)
+          
+        //[System.Web.Mvc.HttpGet]
+        //public ActionResult getdetails(string stu_id)
         //{
         //    List<FeesModel> FeesModelLstObj = new List<FeesModel>();
         //    FeesModel FeesModelObj = new FeesModel();
-        //    DataSet ds1 = mc.fetchdata("select * from tblfees where student_id=" + stu_id + "");
+        //    DataSet ds1 = mc.fetchdata("select * from tblfees where id=" + stu_id + "");
         //    int i = 0;
         //    while (i < ds1.Tables[0].Rows.Count)
         //    {
@@ -81,38 +81,9 @@ namespace WebApplication3.Controllers
         //        FeesModelObj.fees = ds1.Tables[0].Rows[i]["fees"].ToString();
         //        i++;
         //    }
-        //    return View(FeesModelObj);
-        //}
-
-        [System.Web.Mvc.HttpGet]
-        public IActionResult getdetails(string stu_id)
-        {
-
-            List<FeesModel> customer = new List<FeesModel>();
-            DataSet ds1 = mc.fetchdata("select * from tblfees where student_id=" + stu_id + "");
-            int i = 0;
-            while (i < ds1.Tables[0].Rows.Count)
-            {
-                customer.Add(new FeesModel
-                {
-                    id = Convert.ToInt32(ds1.Tables[0].Rows[i]["id"].ToString()),
-                    reg_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["reg_date"].ToString()),
-                    fees_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["fees_date"].ToString()),
-                    student_name = ds1.Tables[0].Rows[i]["student_name"].ToString(),
-                    father_name = ds1.Tables[0].Rows[i]["father_name"].ToString(),
-                    email = ds1.Tables[0].Rows[i]["email"].ToString(),
-                    dob = Convert.ToDateTime(ds1.Tables[0].Rows[i]["dob"].ToString()),
-                    mobile = ds1.Tables[0].Rows[i]["mobile"].ToString(),
-                    student_id = ds1.Tables[0].Rows[i]["student_id"].ToString(),
-                    course_name = ds1.Tables[0].Rows[i]["course_name"].ToString(),
-                    installment = ds1.Tables[0].Rows[i]["installment"].ToString(),
-                    photo = ds1.Tables[0].Rows[i]["photo"].ToString(),
-                    fees = ds1.Tables[0].Rows[i]["fees"].ToString()
-                });
-            }
-                return Json(customer, JsonRequestBehavior.AllowGet);
+        //    return Json(FeesModelObj, System.Web.Mvc.JsonRequestBehavior.AllowGet);
              
-        }
+        //}
 
 
         public IActionResult Create()

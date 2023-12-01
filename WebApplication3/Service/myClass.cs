@@ -14,7 +14,7 @@ namespace WebApplication3.Service
     public class myClass
     {
          
-       static string connectionstring = "server=.\\SQLEXPRESS;database=FCS;Trusted_Connection=True;TrustServerCertificate=True";
+       static string connectionstring = "server=.\\SQLEXPRESS;database=testapp1;Trusted_Connection=True;TrustServerCertificate=True";
 
         public DataSet fetchdata(string query)
         {
