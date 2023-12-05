@@ -56,34 +56,34 @@ namespace WebApplication3.Controllers
             }
             return View(FeesModelLstObj);
         }
-          
-        //[System.Web.Mvc.HttpGet]
-        //public ActionResult getdetails(string stu_id)
-        //{
-        //    List<FeesModel> FeesModelLstObj = new List<FeesModel>();
-        //    FeesModel FeesModelObj = new FeesModel();
-        //    DataSet ds1 = mc.fetchdata("select * from tblfees where id=" + stu_id + "");
-        //    int i = 0;
-        //    while (i < ds1.Tables[0].Rows.Count)
-        //    {
-        //        FeesModelObj.id = Convert.ToInt32(ds1.Tables[0].Rows[i]["id"].ToString());
-        //        FeesModelObj.reg_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["reg_date"].ToString());
-        //        FeesModelObj.fees_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["fees_date"].ToString());
-        //        FeesModelObj.student_name = ds1.Tables[0].Rows[i]["student_name"].ToString();
-        //        FeesModelObj.father_name = ds1.Tables[0].Rows[i]["father_name"].ToString();
-        //        FeesModelObj.email = ds1.Tables[0].Rows[i]["email"].ToString();
-        //        FeesModelObj.dob = Convert.ToDateTime(ds1.Tables[0].Rows[i]["dob"].ToString());
-        //        FeesModelObj.mobile = ds1.Tables[0].Rows[i]["mobile"].ToString();
-        //        FeesModelObj.student_id = ds1.Tables[0].Rows[i]["student_id"].ToString();
-        //        FeesModelObj.course_name = ds1.Tables[0].Rows[i]["course_name"].ToString();
-        //        FeesModelObj.installment = ds1.Tables[0].Rows[i]["installment"].ToString();
-        //        FeesModelObj.photo = ds1.Tables[0].Rows[i]["photo"].ToString();
-        //        FeesModelObj.fees = ds1.Tables[0].Rows[i]["fees"].ToString();
-        //        i++;
-        //    }
-        //    return Json(FeesModelObj, System.Web.Mvc.JsonRequestBehavior.AllowGet);
-             
-        //}
+
+        [HttpGet]
+        public ActionResult getDetails(string stu_id)
+        {
+            List<FeesModel> FeesModelLstObj = new List<FeesModel>();
+            FeesModel FeesModelObj = new FeesModel();
+            DataSet ds1 = mc.fetchdata("select * from tblfees where student_id='" + stu_id + "'");
+            int i = 0;
+            while (i < ds1.Tables[0].Rows.Count)
+            {
+                FeesModelObj.id = Convert.ToInt32(ds1.Tables[0].Rows[i]["id"].ToString());
+                FeesModelObj.reg_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["reg_date"].ToString());
+                FeesModelObj.fees_date = Convert.ToDateTime(ds1.Tables[0].Rows[i]["fees_date"].ToString());
+                FeesModelObj.student_name = ds1.Tables[0].Rows[i]["student_name"].ToString();
+                FeesModelObj.father_name = ds1.Tables[0].Rows[i]["father_name"].ToString();
+                FeesModelObj.email = ds1.Tables[0].Rows[i]["email"].ToString();
+                FeesModelObj.dob = Convert.ToDateTime(ds1.Tables[0].Rows[i]["dob"].ToString());
+                FeesModelObj.mobile = ds1.Tables[0].Rows[i]["mobile"].ToString();
+                FeesModelObj.student_id = ds1.Tables[0].Rows[i]["student_id"].ToString();
+                FeesModelObj.course_name = ds1.Tables[0].Rows[i]["course_name"].ToString();
+                FeesModelObj.installment = ds1.Tables[0].Rows[i]["installment"].ToString();
+                FeesModelObj.photo = ds1.Tables[0].Rows[i]["photo"].ToString();
+                FeesModelObj.fees = ds1.Tables[0].Rows[i]["fees"].ToString();
+                i++;
+            }
+            return Json(FeesModelObj);
+
+        }
 
 
         public IActionResult Create()
@@ -159,6 +159,7 @@ mc.executenonquery("insert into tblfees (reg_date,fees_date,student_name,father_
             // uploaded files code 
         }
 
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             List<FeesModel> FeesModelLstObj = new List<FeesModel>();

@@ -203,26 +203,20 @@
 
 <script> 
 
-    // $("#stuid").change(function (event) {
-    //     debugger
-    //     var cusKey = $("#stuid").val();
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: "/FeesController/getdetails/",
-    //         contentType: "application/json; charset=utf-8",
-    //         dataType: "json",
-    //         data: JSON.stringify({ "stu_id": cusKey }),
-    //         success: function (data) {
-    //             // alert("asd2");
-    //             // $("#student_name").val(data.student_name);
-    //             alert(data.student_name);
-    //         },
-    //         error: function (xhr, status, error) {
-    //             var err = JSON.parse(xhr.responseText);
-    //             alert(err.message);
-    //         }
-    //     });
-    // });
+    $("#stuid").change(function (event) {
+        debugger
+        var stu_id = $("#stuid").val();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("getDetails", "Fees")',
+            data: { "stu_id": stu_id },
+            success: function (data) 
+            { 
+                alert(data.student_name); 
+            },
+            error: function (error) { console.log('Error fetching data: ' + error); }
+        });
+    });
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
