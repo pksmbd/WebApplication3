@@ -201,7 +201,7 @@
     }
 </script> 
 
-<script> 
+<script>
 
     $("#stuid").change(function (event) {
         debugger
@@ -210,9 +210,18 @@
             type: 'GET',
             url: '@Url.Action("getDetails", "Fees")',
             data: { "stu_id": stu_id },
-            success: function (data) 
-            { 
-                alert(data.student_name); 
+            success: function (data) {
+                // alert(data.course_name);
+                $("#student_name").val(data.student_name);
+                $("#father_name").val(data.father_name);
+                $("#email").val(data.email);
+                // $("#dob").append(data.dob);
+                $("#mobile").val(data.mobile);
+                $("#student_id").val(data.student_id);
+                $("#course_name").val(data.course_name);
+                // $('#op1').append(opt);
+                $("#installment").val(data.installment);
+                $("#fees").val(data.fees);
             },
             error: function (error) { console.log('Error fetching data: ' + error); }
         });
