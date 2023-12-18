@@ -58,7 +58,7 @@ namespace WebApplication3.Controllers
         }
 
         [HttpGet]
-        public ActionResult getDetails(string stu_id)
+        public ActionResult getDataFromStudentId(string stu_id)
         {
             List<FeesModel> FeesModelLstObj = new List<FeesModel>();
             FeesModel FeesModelObj = new FeesModel();
@@ -79,6 +79,21 @@ namespace WebApplication3.Controllers
                 FeesModelObj.installment = ds1.Tables[0].Rows[i]["installment"].ToString();
                 FeesModelObj.photo = ds1.Tables[0].Rows[i]["photo"].ToString();
                 FeesModelObj.fees = ds1.Tables[0].Rows[i]["fees"].ToString();
+                i++;
+            }
+            return Json(FeesModelObj);
+
+        }
+        [HttpPost]
+        public ActionResult get_StudentId_List(string student_id)
+        {
+            List<FeesModel> FeesModelLstObj = new List<FeesModel>();
+            FeesModel FeesModelObj = new FeesModel();
+            DataSet ds1 = mc.fetchdata("select distinct student_id from tblfees WHERE student_id LIKE '%"+ student_id + "%'");
+            int i = 0;
+            while (i < ds1.Tables[0].Rows.Count)
+            {
+                FeesModelObj.student_id = ds1.Tables[0].Rows[i]["student_id"].ToString();
                 i++;
             }
             return Json(FeesModelObj);

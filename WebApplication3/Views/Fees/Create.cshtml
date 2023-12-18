@@ -25,7 +25,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="fees_date" class="control-label"></label><font color="red">(*)</font>
-                <input asp-for="fees_date" id="date" class="form-control" />
+                <input asp-for="fees_date"  class="form-control" />
                 <span asp-validation-for="fees_date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" id="mail" class="form-control" />
+                <input asp-for="email" id="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
     </div> 
@@ -48,8 +48,8 @@
             <div class="form-group">
                 <label asp-for="dob" class="control-label"> </label>&nbsp;<span id="result"></span>
                 <input asp-for="dob"  onchange="calculateAge()" id="dob" class="form-control" />
-                
                 <span asp-validation-for="dob" class="text-danger"></span>
+                <input type="hidden" id="hid_dob" value="" />
             </div>
             <div class="form-group">
                 <label asp-for="mobile" class="control-label"></label><font color="red">(*)</font>
@@ -135,14 +135,38 @@
 
 </script>
 
+<script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 <script>
 
-    // FETCHING CURRENT DATE AND DOB DATE
-    document.getElementById('date').value = formatDate();
-    document.getElementById('dob').value = formatDate();
-    function padTo2Digits(num) { return num.toString().padStart(2, '0'); }
-    function formatDate(date = new Date()) { return [ date.getFullYear(), padTo2Digits(date.getMonth() + 1), padTo2Digits(date.getDate()), ].join('-'); }
+    // get dob method (new date or dbms dob date)
+    $(document).ready(function () {
+        getdob();
+    });
+
+    function getdob() {
+        var hid_dob = $("#hid_dob").val();
+        if (hid_dob == "") {
+            var currentDate = new Date();
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1;
+            var year = currentDate.getFullYear();
+            var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+            $("#fees_date").val(formattedDate);
+            $("#dob").val(formattedDate);
+        }
+        else {
+            
+            var dob_Date = new Date(hid_dob);
+            var day = dob_Date.getDate();
+            var month = dob_Date.getMonth() + 1;
+            var year = dob_Date.getFullYear();
+            var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+            $("#dob").val(formattedDate);
+        }
+       
+    }
 </script>
+
 
 
 @section Scripts {
@@ -201,25 +225,24 @@
     }
 </script> 
 
+
 <script>
 
     $("#stuid").change(function (event) {
-        debugger
         var stu_id = $("#stuid").val();
         $.ajax({
             type: 'GET',
-            url: '@Url.Action("getDetails", "Fees")',
+            url: '@Url.Action("getDataFromStudentId", "Fees")',
             data: { "stu_id": stu_id },
             success: function (data) {
-                // alert(data.course_name);
                 $("#student_name").val(data.student_name);
                 $("#father_name").val(data.father_name);
                 $("#email").val(data.email);
-                // $("#dob").append(data.dob);
+                $("#hid_dob").val(data.dob); // hidden value for date on student_id change
+                getdob();     // get dob method (new date or dbms dob date)
                 $("#mobile").val(data.mobile);
                 $("#student_id").val(data.student_id);
                 $("#course_name").val(data.course_name);
-                // $('#op1').append(opt);
                 $("#installment").val(data.installment);
                 $("#fees").val(data.fees);
             },
@@ -227,5 +250,42 @@
         });
     });
 </script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.22/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#stuid").autocomplete({
+            source: function (request, response) {
+                var param = { student_id: $('#stuid').val() };
+                $.ajax({
+                    url: '@Url.Action("get_StudentId_List", "Fees")',
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data.d, function (item) {
+                            return {
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        var err = eval("(" + XMLHttpRequest.responseText + ")");
+                        alert(err.Message)
+                        // console.log("Ajax Error!");
+                    }
+                });
+            },
+            minLength: 1 //This is the Char length of inputTextBox
+        });
+    });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
